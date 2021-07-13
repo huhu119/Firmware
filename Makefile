@@ -82,6 +82,10 @@ j := $(shell ps T | sed -n 's|.*$(MAKE_PID).*$(MAKE).* \(-j\|--jobs\) *\([0-9][0
 # Default j for clang-tidy
 j_clang_tidy := $(or $(j),4)
 
+#如果 定义 VERBOSE 则会有打印输出
+VERBOSE := 1
+#第一次构建是使用 ninja
+# cmake "/home/husheng/work/open_px4_clone_clion_test/PX4-Autopilot" -G"Ninja" -DCONFIG=px4_fmu-v5_default
 NINJA_BIN := ninja
 ifndef NO_NINJA_BUILD
 	NINJA_BUILD := $(shell $(NINJA_BIN) --version 2>/dev/null)
@@ -172,23 +176,29 @@ define cmake-build
 	@$(eval BUILD_DIR = "$(SRC_DIR)/build/$(1)")
 	@# check if the desired cmake configuration matches the cache then CMAKE_CACHE_CHECK stays empty
 	@$(call cmake-cache-check)
+	echo "cmake-cache-check over"
 	@# make sure to start from scratch when switching from GNU Make to Ninja
-	@if [ $(PX4_CMAKE_GENERATOR) = "Ninja" ] && [ -e $(BUILD_DIR)/Makefile ]; then rm -rf $(BUILD_DIR); fi
+	if [ $(PX4_CMAKE_GENERATOR) = "Ninja" ] && [ -e $(BUILD_DIR)/Makefile ]; then rm -rf $(BUILD_DIR) echo "rm -rf $(BUILD_DIR)"; fi
 	@# only excplicitly configure the first build, if cache file already exists the makefile will rerun cmake automatically if necessary
-	@if [ ! -e $(BUILD_DIR)/CMakeCache.txt ] || [ $(CMAKE_CACHE_CHECK) ]; then \
+	if [ ! -e $(BUILD_DIR)/CMakeCache.txt ] || [ $(CMAKE_CACHE_CHECK) ]; then \
 		mkdir -p $(BUILD_DIR) \
 		&& cd $(BUILD_DIR) \
 		&& cmake "$(SRC_DIR)" -G"$(PX4_CMAKE_GENERATOR)" $(CMAKE_ARGS) \
 		|| (rm -rf $(BUILD_DIR)); \
 	fi
 	@# run the build for the specified target
-	@cmake --build $(BUILD_DIR) -- $(PX4_MAKE_ARGS) $(ARGS)
+	# cmake --build "/home/husheng/work/open_px4_clone_clion_test/PX4-Autopilot/build/px4_fmu-v5_default" --
+	echo "cmake "$(SRC_DIR)" -G"$(PX4_CMAKE_GENERATOR)" $(CMAKE_ARGS) "
+	echo "PX4_MAKE_ARGS = $(PX4_MAKE_ARGS)"
+	echo "ARGS = $(ARGS)"
+	cmake --build $(BUILD_DIR) -- $(PX4_MAKE_ARGS) $(ARGS)
 endef
 
 # check if the options we want to build with in CMAKE_ARGS match the ones which are already configured in the cache inside BUILD_DIR
 define cmake-cache-check
 	@# change to build folder which fails if it doesn't exist and CACHED_CMAKE_OPTIONS stays empty
 	@# fetch all previously configured and cached options from the build folder and transform them into the OPTION=VALUE format without type (e.g. :BOOL)
+	#将冒号与空格之间的字符串删除
 	@$(eval CACHED_CMAKE_OPTIONS = $(shell cd $(BUILD_DIR) 2>/dev/null && cmake -L 2>/dev/null | sed -n 's|\([^[:blank:]]*\):[^[:blank:]]*\(=[^[:blank:]]*\)|\1\2|gp' ))
 	@# transform the options in CMAKE_ARGS into the OPTION=VALUE format without -D
 	@$(eval DESIRED_CMAKE_OPTIONS = $(shell echo $(CMAKE_ARGS) | sed -n 's|-D\([^[:blank:]]*=[^[:blank:]]*\)|\1|gp' ))
@@ -214,10 +224,14 @@ ALL_CONFIG_TARGETS := $(shell find boards -maxdepth 3 -mindepth 3 ! -name '*comm
 
 # All targets.
 $(ALL_CONFIG_TARGETS):
-	@$(eval PX4_CONFIG = $@)
-	@$(eval CMAKE_ARGS += -DCONFIG=$(PX4_CONFIG))
-	@$(call cmake-build,$(PX4_CONFIG)$(BUILD_DIR_SUFFIX))
-
+	echo "1111111111lala"
+	$(eval PX4_CONFIG = $@)
+	echo "PX4_CONFIG = $(PX4_CONFIG)"
+	$(eval CMAKE_ARGS += -DCONFIG=$(PX4_CONFIG))
+	echo "CMAKE_ARGS = $(CMAKE_ARGS)"
+	echo "cmake-build,$(PX4_CONFIG)$(BUILD_DIR_SUFFIX)"
+	$(call cmake-build,$(PX4_CONFIG)$(BUILD_DIR_SUFFIX))
+	echo "222222222lala"
 # Filter for only default targets to allow omiting the "_default" postfix
 CONFIG_TARGETS_DEFAULT := $(patsubst %_default,%,$(filter %_default,$(ALL_CONFIG_TARGETS)))
 $(CONFIG_TARGETS_DEFAULT):
