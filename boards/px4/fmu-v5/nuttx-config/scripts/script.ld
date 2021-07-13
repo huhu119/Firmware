@@ -118,6 +118,7 @@ SECTIONS
 		/*
 		 * This is a hack to make the newlib libm __errno() call
 		 * use the NuttX get_errno_ptr() function.
+		 *这是一个使用NuttX get_errno_ptr()函数使newlib libm __errno()调用的hack。
 		 */
 		__errno = get_errno_ptr;
 	} > FLASH_AXIM

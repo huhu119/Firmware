@@ -93,8 +93,11 @@ function(px4_parse_function_args)
 		#message(FATAL_ERROR "${IN_NAME}: unparsed ${OUT_UNPARSED_ARGUMENTS}")
 		# TODO: reenable
 	endif()
-
+	#message("func = ${IN_NAME}")
+	#message("IN_REQUIRED = ${IN_REQUIRED}")
 	foreach(arg ${IN_REQUIRED})
+
+		#message(" ${arg},  ${OUT_${arg}}")
 		if (NOT OUT_${arg})
 			if (NOT "${OUT_${arg}}" STREQUAL "0")
 				message(FATAL_ERROR "${IN_NAME} requires argument ${arg}\nARGN: ${IN_ARGN}")
@@ -103,7 +106,10 @@ function(px4_parse_function_args)
 	endforeach()
 
 	foreach(arg ${IN_OPTIONS} ${IN_ONE_VALUE} ${IN_MULTI_VALUE})
+		#message(" arg = ${arg}")
 		set(${arg} ${OUT_${arg}} PARENT_SCOPE)
+		#message(" arg = ${arg}")
+		#message(" xxxxxxxxxxxxxx")
 	endforeach()
 
 endfunction()

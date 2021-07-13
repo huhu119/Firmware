@@ -83,7 +83,7 @@ j := $(shell ps T | sed -n 's|.*$(MAKE_PID).*$(MAKE).* \(-j\|--jobs\) *\([0-9][0
 j_clang_tidy := $(or $(j),4)
 
 #如果 定义 VERBOSE 则会有打印输出
-VERBOSE := 1
+#VERBOSE := 1
 #第一次构建是使用 ninja
 # cmake "/home/husheng/work/open_px4_clone_clion_test/PX4-Autopilot" -G"Ninja" -DCONFIG=px4_fmu-v5_default
 NINJA_BIN := ninja

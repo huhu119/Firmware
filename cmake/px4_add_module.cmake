@@ -90,6 +90,8 @@ function(px4_add_module)
 		REQUIRED MODULE MAIN
 		ARGN ${ARGN})
 
+	#message("MODULE = ${MODULE}")
+	#message("MAIN = ${MAIN}")
 	if(UNITY_BUILD AND (${PX4_PLATFORM} STREQUAL "nuttx"))
 		# build standalone test library to catch compilation errors and provide sane output
 		add_library(${MODULE}_original STATIC EXCLUDE_FROM_ALL ${SRCS})
@@ -104,6 +106,8 @@ function(px4_add_module)
 		target_compile_definitions(${MODULE}_original PRIVATE MODULE_NAME="${MAIN}_original")
 
 		# unity build
+		#message("CMAKE_CURRENT_BINARY_DIR = ${CMAKE_CURRENT_BINARY_DIR}")
+		#/home/husheng/work/open_px4_clone_clion_test/PX4-Autopilot/build/px4_fmu-v5_default/src/modules/mavlink
 		add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${MODULE}_unity.cpp
 			COMMAND cat ${SRCS} > ${CMAKE_CURRENT_BINARY_DIR}/${MODULE}_unity.cpp
 			DEPENDS ${MODULE}_original ${DEPENDS} ${SRCS}

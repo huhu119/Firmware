@@ -62,12 +62,17 @@ function(px4_add_git_submodule)
 		REQUIRED TARGET PATH
 		ARGN ${ARGN})
 
+	message("TARGET  = ${TARGET}")
+	message("PATH  = ${PATH}")
+
 	set(REL_PATH)
 
 	if(IS_ABSOLUTE ${PATH})
 		file(RELATIVE_PATH REL_PATH ${PX4_SOURCE_DIR} ${PATH})
+		message("is_ABSOLUTE   REL_PATH = ${REL_PATH}")
 	else()
 		file(RELATIVE_PATH REL_PATH ${PX4_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${PATH})
+		message("is_not_ABSOLUTE   REL_PATH = ${REL_PATH}")
 	endif()
 
 	execute_process(
@@ -77,6 +82,9 @@ function(px4_add_git_submodule)
 
 	string(REPLACE "/" "_" NAME ${PATH})
 	string(REPLACE "." "_" NAME ${NAME})
+	message("NAME = ${NAME}")
+	message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
+	message("CMAKE_CURRENT_BINARY_DIR = ${CMAKE_CURRENT_BINARY_DIR}")
 
 	add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/git_init_${NAME}.stamp
 		COMMAND Tools/check_submodules.sh ${REL_PATH}

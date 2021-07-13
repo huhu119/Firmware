@@ -185,7 +185,8 @@ stm32_boardinitialize(void)
  *   Perform application specific initialization.  This function is never
  *   called directly from application code, but only indirectly via the
  *   (non-standard) boardctl() interface using the command BOARDIOC_INIT.
- *
+ *执行特定于应用程序的初始化。
+ *这个函数从不直接从应用程序代码调用，而只能使用命令boardoc_init通过(非标准)boardctl()接口间接调用。
  * Input Parameters:
  *   arg - The boardctl() argument is passed to the board_app_initialize()
  *         implementation without modification.  The argument has no

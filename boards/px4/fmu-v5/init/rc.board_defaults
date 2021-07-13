@@ -3,7 +3,7 @@
 # PX4 FMUv5 specific board defaults
 #------------------------------------------------------------------------------
 
-
+echo "rc.board_defaults  /////////////////////////////////////////////////////////////////////////////////////"
 if [ $AUTOCNF = yes ]
 then
 
@@ -13,3 +13,5 @@ set LOGGER_BUF 64
 
 rgbled_pwm start
 safety_button start
+
+echo "rc.board_defaults ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
