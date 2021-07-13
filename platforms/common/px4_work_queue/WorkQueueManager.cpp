@@ -56,10 +56,15 @@ namespace px4
 // list of current work queues
 static BlockingList<WorkQueue *> *_wq_manager_wqs_list{nullptr};
 
-// queue of WorkQueues to be created (as threads in the wq manager task)
+// queue of WorkQueues to be created (as threads in the wq manager task) 要创建的工作队列队列(作为wq manager任务中的线程)
 static BlockingQueue<const wq_config_t *, 1> *_wq_manager_create_queue{nullptr};
 
 static px4::atomic_bool _wq_manager_should_exit{true};
+
+static uint32_t  test_flag_wq_manager_create_queue = 0;
+static uint32_t  test_count__ = 0 ;//看看 pop 调用了多少次
+static uint32_t  test_WorkQueueRunner__a  = 0;//看看 WorkQueueRunner 调用了多少次
+static uint32_t  test_WorkQueueRunner__b  = 0 ;//看看 WorkQueueRunner 调用了多少次
 
 
 static WorkQueue *
@@ -90,15 +95,23 @@ WorkQueueFindOrCreate(const wq_config_t &new_wq)
 		return nullptr;
 	}
 
-	// search list for existing work queue
+	// search list for existing work queue  在工作队列里查找 是否已注册
+	//名字是通过查找出来的 不是外设自定义名字，这个静态名字定义在 platforms/common/include/px4_platform_common/px4_work_queue/WorkQueueManager.hpp
+	//名字类似于  wq:SPI0  wq:SPI1 wq:SPI2  wq:I2C0 wq:I2C1
+	//查找名字 用函数  device_bus_to_wq 或  serial_port_to_wq
+	//new_wq 这个变量 是已经静态生成的！！！
 	WorkQueue *wq = FindWorkQueueByName(new_wq.name);
 
+	// 如果之前没有创建 则返回 null  然后通过下面的程序去创建  如果以创建 则返回 WorkQueue *
 	// create work queue if it doesn't already exist
 	if (wq == nullptr) {
 		// add WQ config to list
 		//  main thread wakes up, creates the thread
+		//_wq_manager_create_queue 队列只有一个元素
+		//这个元素在 主线程中 一直被判断是否为空 如果不为空 则创建一个线程
 		_wq_manager_create_queue->push(&new_wq);
-
+		//PX4_INFO("%s need create",new_wq.name);
+		//等待线程被创建 然后继续运行
 		// we wait until new wq is created, then return
 		uint64_t t = 0;
 
@@ -106,7 +119,7 @@ WorkQueueFindOrCreate(const wq_config_t &new_wq)
 			// Wait up to 10 seconds, checking every 1 ms
 			t += 1_ms;
 			px4_usleep(1_ms);
-
+			//如果查找到了 表示创建成功
 			wq = FindWorkQueueByName(new_wq.name);
 		}
 
@@ -207,33 +220,38 @@ WorkQueueRunner(void *context)
 	wq_config_t *config = static_cast<wq_config_t *>(context);
 	WorkQueue wq(*config);
 
+	test_WorkQueueRunner__a++;
+
 	// add to work queue list
 	_wq_manager_wqs_list->add(&wq);
-
+	//PX4_INFO("%s run",config->name);
 	wq.Run();
-
+	//PX4_INFO("%s run  over",config->name);
 	// remove from work queue list
 	_wq_manager_wqs_list->remove(&wq);
-
+	test_WorkQueueRunner__b++;
 	return nullptr;
 }
 
 static int
 WorkQueueManagerRun(int, char **)
 {
+
 	_wq_manager_wqs_list = new BlockingList<WorkQueue *>();
 	_wq_manager_create_queue = new BlockingQueue<const wq_config_t *, 1>();
 
+
 	while (!_wq_manager_should_exit.load()) {
-		// create new work queues as needed
+		// create new work queues as needed  根据需要创建新的工作队列
 		const wq_config_t *wq = _wq_manager_create_queue->pop();
 
+		test_count__ = test_count__ +1 ;
 		if (wq != nullptr) {
 			// create new work queue
 
 			pthread_attr_t attr;
 			int ret_attr_init = pthread_attr_init(&attr);
-
+			test_flag_wq_manager_create_queue++;
 			if (ret_attr_init != 0) {
 				PX4_ERR("attr init for %s failed (%i)", wq->name, ret_attr_init);
 			}
@@ -282,7 +300,7 @@ WorkQueueManagerRun(int, char **)
 				PX4_ERR("setting sched params for %s failed (%i)", wq->name, ret_setschedparam);
 			}
 
-			// create thread
+			// create thread  创建线程
 			pthread_t thread;
 			int ret_create = pthread_create(&thread, &attr, WorkQueueRunner, (void *)wq);
 
@@ -409,7 +427,28 @@ WorkQueueManagerStatus()
 
 			wq->print_status(last_wq);
 		}
+		/*
+		这会导致  mavlink 控制台崩溃
+		const wq_config_t *wq = _wq_manager_create_queue->pop();
 
+
+		if (wq != nullptr) {
+
+			PX4_INFO("_wq_manager_create_queue   != NULL");
+		} else {
+			PX4_INFO("_wq_manager_create_queue   NULL");
+		}
+		*/
+		if(_wq_manager_should_exit.load()){
+
+			PX4_INFO("test_count__   = %u",test_count__);
+		} else {
+
+		}
+		PX4_INFO("test_count__   = %u",test_count__);
+		PX4_INFO("test_flag_wq_manager_create_queue   = %u",test_flag_wq_manager_create_queue);
+		PX4_INFO("test_WorkQueueRunner__a   = %u",test_WorkQueueRunner__a);
+		PX4_INFO("test_WorkQueueRunner__b   = %u",test_WorkQueueRunner__b);
 	} else {
 		PX4_INFO("not running");
 	}

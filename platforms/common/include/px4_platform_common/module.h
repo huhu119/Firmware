@@ -65,16 +65,22 @@ extern pthread_mutex_t px4_modules_mutex;
  *      such as 'start', 'stop' and 'status' commands.
  *      Currently does not support modules which allow multiple instances,
  *      such as mavlink.
+ *模块的基类，实现常见的功能，如'start'， 'stop'和'status'命令。
+ *目前不支持允许多个实例的模块，如mavlink。
  *
  *      The class is implemented as curiously recurring template pattern (CRTP).
  *      It allows to have a static object in the base class that is different for
  *      each module type, and call static methods from the base class.
+ *这个类被实现为奇怪的重复模板模式(CRTP)。
+ *它允许在基类中有一个针对每个模块类型不同的静态对象，并从基类中调用静态方法。
  *
  * @note Required methods for a derived class:
  * When running in its own thread:
+ * 派生类所需的方法:在自己的线程中运行时:
  *      static int task_spawn(int argc, char *argv[])
  *      {
  *              // call px4_task_spawn_cmd() with &run_trampoline as startup method
+ * 		//使用&run_trampoline 作为启动方法调用px4_task_spawn_cmd()
  *              // optional: wait until _object is not null, which means the task got initialized (use a timeout)
  *              // set _task_id and return 0
  *              // on error return != 0 (and _task_id must be -1)
@@ -83,6 +89,7 @@ extern pthread_mutex_t px4_modules_mutex;
  *      static T *instantiate(int argc, char *argv[])
  *      {
  *              // this is called from within the new thread, from run_trampoline()
+ * 		// 这是从新线程中的run_trampoline调用的
  *              // parse the arguments
  *              // create a new object T & return it
  *              // or return nullptr on error
@@ -101,6 +108,7 @@ extern pthread_mutex_t px4_modules_mutex;
  *      }
  *
  * When running on the work queue:
+ * 在工作队列上运行时
  * - custom_command & print_usage as above
  *      static int task_spawn(int argc, char *argv[]) {
  *              // parse the arguments
@@ -121,6 +129,7 @@ public:
 	/**
 	 * @brief main Main entry point to the module that should be
 	 *        called directly from the module's main method.
+	 * main模块的主入口点，应该直接从模块的main方法调用。
 	 * @param argc The task argument count.
 	 * @param argc Pointer to the task argument variable array.
 	 * @return Returns 0 iff successful, -1 otherwise.
@@ -158,9 +167,9 @@ public:
 	/**
 	 * @brief Entry point for px4_task_spawn_cmd() if the module runs in its own thread.
 	 *        It does:
-	 *        - instantiate the object
+	 *        - instantiate the object  实例化对象
 	 *        - call run() on it to execute the main loop
-	 *        - cleanup: delete the object
+	 *        - cleanup: delete the object  删除对象
 	 * @param argc The task argument count.
 	 * @param argc Pointer to the task argument variable array.
 	 * @return Returns 0 iff successful, -1 otherwise.
@@ -171,6 +180,7 @@ public:
 
 #ifdef __PX4_NUTTX
 		// On NuttX task_create() adds the task name as first argument.
+		// 在NuttX上，task_create()将任务名添加为第一个参数。 所以往后推一个
 		argc -= 1;
 		argv += 1;
 #endif

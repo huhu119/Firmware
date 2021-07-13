@@ -59,6 +59,7 @@ int px4_console_buffer_init();
  * Print content of the console buffer to stdout
  * @param follow if true keep waiting and print new content whenever the buffer
  *               is updated
+ * if true keep waiting and print new content whenever the buffer  is updated
  */
 void px4_console_buffer_print(bool follow);
 
@@ -71,7 +72,10 @@ int px4_console_buffer_size();
  * Read (chunks) of the console buffer.
  * Note that no lock is held between reading multiple chunks, so the buffer could get
  * updated meanwhile. Use px4_console_buffer_size() to read no more than expected.
- * @param buffer output buffer
+ *读取控制台缓冲区的(块)。
+* 注意，在读取多个块之间没有锁，所以缓冲区可以同时得到更新。
+ * 使用px4_console_buffer_size()读取不超过预期的值。
+ *  @param buffer output buffer
  * @param buffer_length output buffer length
  * @param offset input and output argument for the offset. Initially set this to -1.
  * @return number of bytes written to the buffer (or <0 on error)

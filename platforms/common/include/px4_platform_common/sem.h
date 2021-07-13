@@ -62,7 +62,7 @@ typedef struct {
 
 __EXPORT int		px4_sem_init(px4_sem_t *s, int pshared, unsigned value);
 __EXPORT int		px4_sem_setprotocol(px4_sem_t *s, int protocol);
-__EXPORT int		px4_sem_wait(px4_sem_t *s);
+__EXPORT int		px4_sem_wait(px4_sem_t *s);//作用是从信号量中的值减1  如果对一个值为0的信号量调用sem_wait()，这个函数就会原地等待直到有其它线程增加了这个值使它不再是0为止
 __EXPORT int		px4_sem_trywait(px4_sem_t *sem);
 __EXPORT int		px4_sem_timedwait(px4_sem_t *sem, const struct timespec *abstime);
 __EXPORT int		px4_sem_post(px4_sem_t *s);

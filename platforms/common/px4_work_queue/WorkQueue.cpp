@@ -102,7 +102,7 @@ void WorkQueue::Detach(WorkItem *item)
 
 	work_unlock();
 }
-
+// 添加到运行队列
 void WorkQueue::Add(WorkItem *item)
 {
 	work_lock();
@@ -143,11 +143,13 @@ void WorkQueue::Run()
 {
 	while (!should_exit()) {
 		// loop as the wait may be interrupted by a signal
+		//循环作为等待可能被一个信号中断
 		do {} while (px4_sem_wait(&_process_lock) != 0);
 
 		work_lock();
 
 		// process queued work
+		//依次处理 所有的 队列里的东西
 		while (!_q.empty()) {
 			WorkItem *work = _q.pop();
 

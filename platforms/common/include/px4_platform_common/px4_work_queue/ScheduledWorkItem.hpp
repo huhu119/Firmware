@@ -46,7 +46,7 @@ public:
 
 	/**
 	 * Schedule next run with a delay in microseconds.
-	 *
+	 *计划以微秒为单位的下一次运行。
 	 * @param delay_us		The delay in microseconds.
 	 */
 	void ScheduleDelayed(uint32_t delay_us);

@@ -149,7 +149,7 @@ typedef int (*px4_main_t)(int argc, char *argv[]);
 
 __BEGIN_DECLS
 
-/** Starts a task and performs any specific accounting, scheduler setup, etc. */
+/** Starts a task and performs any specific accounting, scheduler setup, etc. 启动一个任务并执行任何特定的记帐、调度器设置等 */
 __EXPORT px4_task_t px4_task_spawn_cmd(const char *name,
 				       int scheduler,
 				       int priority,

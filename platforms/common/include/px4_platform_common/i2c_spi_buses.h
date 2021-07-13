@@ -57,6 +57,7 @@ enum class I2CSPIBusOption : uint8_t {
 /**
  * @class I2CSPIInstance
  * I2C/SPI driver instance used by BusInstanceIterator to find running instances.
+ * " I2C/SPI "驱动程序实例，由" BusInstanceIterator "查找正在运行的实例。
  */
 class I2CSPIInstance : public ListNode<I2CSPIInstance *>
 {
@@ -85,17 +86,20 @@ public:
 
 	/**
 	 * Parse CLI arguments (for drivers that don't need any custom arguments, otherwise getopt() should be used)
+	 * 解析CLI参数（对于不需要任何自定义参数的驱动程序，否则应该使用“getopt()”）
 	 * @return command (e.g. "start") or nullptr on error or unknown argument
 	 */
 	const char *parseDefaultArguments(int argc, char *argv[]);
 
 	/**
 	 * Like px4_getopt(), but adds and handles i2c/spi driver-specific arguments
+	 * 类似px4_getopt()，但是添加和处理i2c/spi驱动程序特定的参数
 	 */
 	int getopt(int argc, char *argv[], const char *options);
 
 	/**
 	 * returns the current optional argument (for options like 'T:'), or the command (e.g. "start")
+	 * 返回当前可选参数(如` T: `)，或命令(“开始”)
 	 * @return nullptr or argument/command
 	 */
 	const char *optarg() const { return _optarg; }
@@ -133,6 +137,7 @@ private:
 /**
  * @class BusInstanceIterator
  * Iterate over running instances and/or configured I2C/SPI buses with given filter options.
+ *使用给定的过滤器选项“迭代”正在运行的实例和/或配置的 I2C/SPI 总线。
  */
 class BusInstanceIterator
 {

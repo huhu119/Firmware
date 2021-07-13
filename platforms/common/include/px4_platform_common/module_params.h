@@ -55,6 +55,7 @@ public:
 	/**
 	 * @brief Sets the parent module. This is typically not required,
 	 *         only in cases where the parent cannot be set via constructor.
+	 * 设置父模块。这通常是不需要的，只有在父类不能通过构造函数设置的情况下。
 	 */
 	void setParent(ModuleParams *parent)
 	{

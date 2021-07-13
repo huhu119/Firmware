@@ -38,8 +38,11 @@
 
 /*
  * Helper macros to handle device ID's. They are used to match drivers against SPI buses and chip-select signals.
+ *处理设备ID的Helper宏。它们用于将驱动程序与SPI总线和芯片选择信号相匹配。
  * They match with corresponding definitions in NuttX.
+ * 它们与NuttX中相应的定义相匹配。
  * 'type' is typically PX4_SPI_DEVICE_ID for PX4 drivers, and 'index' is used for the driver (DRV_*) or chip-select index.
+ * 'type'通常是PX4驱动程序的PX4_SPI_DEVICE_ID， 'index'用于驱动程序(DRV_*)或芯片选择索引。
  */
 #define PX4_SPIDEV_ID(type, index)  ((((type) & 0xffff) << 16) | ((index) & 0xffff))
 #define PX4_SPI_DEVICE_ID         (1 << 12)
@@ -162,7 +165,7 @@ private:
 	const FilterType _filter;
 	const uint16_t _devid_driver_index;
 	const int _bus;
-	int _index{-1};
+	int _index{-1};//确定是那条 spi 总线 匹配boards/px4/fmu-v5/src/spi.cpp 上 是 index
 	int _external_bus_counter{0};
-	int _bus_device_index{0};
+	int _bus_device_index{0};//确定是那条 spi x 下的第几个外设
 };

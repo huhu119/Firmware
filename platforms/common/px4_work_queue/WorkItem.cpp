@@ -45,6 +45,7 @@ namespace px4
 WorkItem::WorkItem(const char *name, const wq_config_t &config) :
 	_item_name(name)
 {
+	//初始化   主要是为了创建_wq （ WorkQueue）
 	if (!Init(config)) {
 		PX4_ERR("init failed");
 	}

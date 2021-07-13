@@ -105,6 +105,7 @@ bool px4_spi_bus_external(const px4_spi_bus_t &bus)
 bool SPIBusIterator::next()
 {
 	// we have at most 1 match per bus, so we can directly jump to the next bus
+	//每个总线最多有1个匹配，所以我们可以直接跳到下一个总线  px4_spi_buses就是 boards/px4/fmu-v5/src/spi.cpp下定义的
 	while (++_index < SPI_BUS_MAX_BUS_ITEMS && px4_spi_buses[_index].bus != -1) {
 		const px4_spi_bus_t &bus_data = px4_spi_buses[_index];
 
@@ -117,6 +118,10 @@ bool SPIBusIterator::next()
 		// external/internal, but at runtime the other way around.
 		// (On boards where a bus can be internal/external at runtime, it should be
 		// configured as external.)
+		//注意:我们使用bus_data。
+		//这里是Is_external而不是px4_spi_bus_external()，
+		//否则，如果总线被配置为外部/内部，芯片选择匹配就不能工作，
+		//但在运行时反过来。(在运行时总线可以是内部或外部的板上，它应该被配置为外部的。)
 		switch (_filter) {
 		case FilterType::InternalBus:
 			if (!bus_data.is_external) {
@@ -125,6 +130,7 @@ bool SPIBusIterator::next()
 					for (int i = 0; i < SPI_BUS_MAX_DEVICES; ++i) {
 						if (PX4_SPI_DEVICE_ID == PX4_SPIDEVID_TYPE(bus_data.devices[i].devid) &&
 						    _devid_driver_index == bus_data.devices[i].devtype_driver) {
+							    //确定总线编号
 							_bus_device_index = i;
 							return true;
 						}

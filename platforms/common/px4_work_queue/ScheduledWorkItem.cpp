@@ -40,7 +40,7 @@ ScheduledWorkItem::~ScheduledWorkItem()
 {
 	ScheduleClear();
 }
-
+//trampoline 蹦床的意思 好像是继续执行的意思
 void ScheduledWorkItem::schedule_trampoline(void *arg)
 {
 	ScheduledWorkItem *dev = static_cast<ScheduledWorkItem *>(arg);

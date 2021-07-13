@@ -60,11 +60,12 @@ public:
 	WorkItem(WorkItem &&) = delete;
 	WorkItem &operator=(WorkItem &&) = delete;
 
-	// WorkItems sorted by name
+	// WorkItems sorted by name   按名称排序的工作项
 	bool operator<=(const WorkItem &rhs) const { return (strcmp(ItemName(), rhs.ItemName()) <= 0); }
 
 	inline void ScheduleNow()
 	{
+		//添加到 它所对应的workQueue 中的  IntrusiveQueue<WorkItem *>	_q;中  
 		if (_wq != nullptr) {
 			_wq->Add(this);
 		}
@@ -93,10 +94,11 @@ protected:
 
 	/**
 	 * Remove work item from the runnable queue, if it's there
+	 * 如果工作项存在，则从可运行队列中删除它
 	 */
 	void ScheduleClear();
 protected:
-
+	// Preamble为序言意思
 	void RunPreamble()
 	{
 		_run_count++;
@@ -105,16 +107,20 @@ protected:
 			_time_first_run = hrt_absolute_time();
 		}
 	}
-
+	//在实现类之间数据共享时，减少系统开销，提高效率。
+	//如果类A中的函数要访问类B中的成员（例如：智能指针类的实现），
+	//那么类A中该函数要是类B的友元函数
 	friend void WorkQueue::Run();
 	virtual void Run() = 0;
 
 	/**
 	 * Initialize WorkItem given a WorkQueue config. This call
 	 * can also be used to switch to a different WorkQueue.
+	 * 初始化给定WorkQueue配置的WorkItem。这个调用还可以用于切换到不同的WorkQueue。
 	 * NOTE: Caller is responsible for synchronization.
-	 *
+	 * Caller负责同步。
 	 * @param config The WorkQueue configuration (see WorkQueueManager.hpp).
+	 * 工作队列配置(请参见WorkQueueManager.hpp)。
 	 * @return true if initialization was successful
 	 */
 	bool Init(const wq_config_t &config);

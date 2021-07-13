@@ -74,6 +74,7 @@ public:
 	void print_status(bool last = false);
 
 	// WorkQueues sorted numerically by relative priority (-1 to -255)
+	//按相对优先级按数字排序的工作队列(-1到-255)
 	bool operator<=(const WorkQueue &rhs) const { return _config.relative_priority >= rhs.get_config().relative_priority; }
 
 private:

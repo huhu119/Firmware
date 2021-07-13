@@ -75,6 +75,11 @@ inline static param_t param_handle(px4::params p)
 // It means you have a custom inheritance tree (at least one class with params that inherits from another
 // class with params) and you need to use DEFINE_PARAMETERS_CUSTOM_PARENT() for **all** classes in
 // that tree.
+//定义一个参数列表。这个宏还创建代码来更新参数。
+//如果你得到如下编译错误:
+//error: virtual function ` virtual void &lt;class&gt;::updateParamsImpl() `
+//这意味着您有一个自定义继承树(至少一个带参数的类从另一个带参数的类继承)，并且您需要对树中的所有类使用DEFINE_PARAMETERS_CUSTOM_PARENT()。
+
 #define DEFINE_PARAMETERS(...) \
 	APPLY_ALL(_DEFINE_SINGLE_PARAMETER, __VA_ARGS__) \
 	_DEFINE_PARAMETER_UPDATE_METHOD(__VA_ARGS__)

@@ -88,11 +88,13 @@ int BusCLIArguments::getopt(int argc, char *argv[], const char *options)
 		*(p++) = 'f'; *(p++) = ':'; // frequency
 
 		// copy all options
+		//将输入参数options 的内容加到 _options后面  即扩充上面的参数检查
 		const char *option = options;
 
 		while (p != _options + sizeof(_options) && *option) {
 			if (*option != ':') {
 				// check for duplicates
+				//检查副本
 				for (const char *c = _options; c != p; ++c) {
 					if (*c == *option) {
 						PX4_ERR("conflicting option: %c", *c);
@@ -215,7 +217,9 @@ BusInstanceIterator::BusInstanceIterator(const char *module_name,
 	  _current_instance(i2c_spi_module_instances.end())
 {
 	// We lock the module instance list as long as this object is alive, since we iterate over the list.
+	//只要这个对象是活的，我们就锁定模块实例列表，因为我们在列表上迭代。
 	// Locking could be a bit more fine-grained, but the iterator is mostly only used sequentially, so not an issue.
+	//锁定可能更细粒度，但迭代器大多只按顺序使用，所以不是问题。
 	pthread_mutex_lock(&i2c_spi_module_instances_mutex);
 	_current_instance = i2c_spi_module_instances.end();
 }
@@ -466,7 +470,7 @@ int I2CSPIDriverBase::module_start(const BusCLIArguments &cli, BusInstanceIterat
 
 
 		device::Device::DeviceId device_id{};
-		device_id.devid_s.bus = iterator.bus();
+		device_id.devid_s.bus = iterator.bus();//返回总线编号
 
 		switch (iterator.busType()) {
 		case BOARD_I2C_BUS: device_id.devid_s.bus_type = device::Device::DeviceBusType_I2C; break;
@@ -479,12 +483,15 @@ int I2CSPIDriverBase::module_start(const BusCLIArguments &cli, BusInstanceIterat
 		const int runtime_instance = iterator.runningInstancesCount();
 		I2CSPIDriverInitializing initializer_data{cli, iterator, instantiate, runtime_instance};
 		// initialize the object and bus on the work queue thread - this will also probe for the device
+		//在工作队列线程上初始化对象和总线——这也将探测设备   ！！！！！
 		px4::WorkItemSingleShot initializer(px4::device_bus_to_wq(device_id.devid), initializer_trampoline, &initializer_data);
 		initializer.ScheduleNow();
 		initializer.wait();
+		//设备应该是跑起来了 赋值校验
 		I2CSPIDriverBase *instance = initializer_data.instance;
 
 		if (!instance) {
+			//实例化失败(总线%i上没有设备(devid 0x%x)?)
 			PX4_DEBUG("instantiate failed (no device on bus %i (devid 0x%x)?)", iterator.bus(), iterator.devid());
 			continue;
 		}

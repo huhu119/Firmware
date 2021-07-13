@@ -46,7 +46,7 @@
  * @class Smart locking object that uses a semaphore. It automatically
  * takes the lock when created and releases the lock when the object goes out of
  * scope. Use like this:
- *
+ *使用信号量的智能锁定对象。它在创建时自动获取锁，并在对象超出范围时释放锁。使用这样的:
  *   px4_sem_t my_lock;
  *   int ret = px4_sem_init(&my_lock, 0, 1);
  *   ...

@@ -131,15 +131,18 @@ static int reorder(int argc, char **argv, const char *options)
 // px4_getopt
 //
 // returns:
-//            the valid option character
-//            '?' if any option is unknown
-//            -1 if no remaining options
+//            the valid option character  有效的选项字符
+//            '?' if any option is unknown ”?如果没有其他选择的话
+//            -1 if no remaining options -1如果没有剩余的选项
 //
 // If the option takes an arg, myoptarg will be updated accordingly.
 // After each call to px4_getopt, myoptind in incremented to the next
 // unparsed arg index.
 // Argv is changed to put all options and option args at the beginning,
 // followed by non-options.
+//如果该选项接受一个参数，" myoptarg "将相应地更新。
+//在每次调用“px4_getopt”之后，“myoptind”中的值递增到下一个未解析的arg索引。
+//Argv被更改为将所有“选项”和选项参数放在开头，然后是非选项参数。
 //
 __EXPORT int px4_getopt(int argc, char *argv[], const char *options, int *myoptind, const char **myoptarg)
 {

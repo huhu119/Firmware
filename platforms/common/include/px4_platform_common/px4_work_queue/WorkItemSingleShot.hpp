@@ -41,7 +41,7 @@ namespace px4
 
 /**
  * @class WorkItemSingleShot
- * Run a method on a specific work queue and wait for it to exit.
+ * Run a method on a specific work queue and wait for it to exit.    在特定的工作队列上运行一个方法，并等待它退出。
  * Example usage:
  *   WorkItemSingleShot initializer(px4::device_bus_to_wq(device_id.devid), instantiate, &data);
  *   initializer.ScheduleNow();

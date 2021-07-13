@@ -164,6 +164,9 @@ public:
 	 * equal, the operation is a read-modify-write operation that writes desired
 	 * into _value. If they are not equal, the operation is a read and the current
 	 * contents of _value are written into *expected.
+	 * 原子比较和交换操作。这将_value的内容与*expected的内容进行比较。
+	 * 如果相等，则该操作是read-modify-write操作，该操作将 desired 的内容写入_value。
+	 * 如果它们不相等，则操作为读操作，并将_value的当前内容写入*expected。
 	 * @return If desired is written into _value then true is returned
 	 */
 	inline bool compare_exchange(T *expected, T desired)
