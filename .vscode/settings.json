@@ -162,7 +162,11 @@
                 "vector": "cpp"
         },
         "search.exclude": {
-                "${workspaceFolder}/build": true
+                "${workspaceFolder}/platforms/qurt": true,
+                "${workspaceFolder}/msg/tools": true,
+        },
+        "files.exclude": {
+                "${workspaceFolder}/test_data": true,
         },
         "search.showLineNumbers": true,
         "search.smartCase": true,
