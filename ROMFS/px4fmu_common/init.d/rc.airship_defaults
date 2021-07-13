@@ -4,7 +4,7 @@
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
-
+echo "rc.airship_defaults /////////////////////////////////////////////////////////////////////////////////////"
 set VEHICLE_TYPE airship
 
 #
@@ -12,3 +12,5 @@ set VEHICLE_TYPE airship
 #
 set MIXER_AUX pass
 set PWM_AUX_OUT 1234
+
+echo "rc.airship_defaults ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

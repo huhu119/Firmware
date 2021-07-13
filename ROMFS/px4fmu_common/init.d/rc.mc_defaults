@@ -3,8 +3,9 @@
 # Multicopter default parameters.
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
+#脚本变量在rcS脚本中声明/初始化/取消设置。
 #
-
+echo "rc.mc_defaults /////////////////////////////////////////////////////////////////////////////////////"
 set VEHICLE_TYPE mc
 
 if [ $AUTOCNF = yes ]
@@ -28,3 +29,5 @@ fi
 set MIXER_AUX pass
 
 set PWM_AUX_OUT 1234
+
+echo "rc.mc_defaults ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

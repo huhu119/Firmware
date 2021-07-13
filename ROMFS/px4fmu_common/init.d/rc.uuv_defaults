@@ -4,7 +4,7 @@
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
-
+echo "rc.uuv_defaults  /////////////////////////////////////////////////////////////////////////////////////"
 set VEHICLE_TYPE uuv
 
 if [ $AUTOCNF = yes ]
@@ -33,3 +33,6 @@ set PWM_DISARMED 1500
 set MIXER_AUX pass
 set PWM_AUX_OUT 1234
 set PWM_AUX_RATE 50
+
+echo "rc.uuv_defaults ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+

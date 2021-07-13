@@ -8,7 +8,7 @@
 #  variable name is terminated with the right bracket character ('}').
 #  Otherwise, the variable name goes to the end of the argument.
 #
-
+echo "rc.interface /////////////////////////////////////////////////////////////////////////////////////"
 set OUTPUT_CMD pwm_out
 set MIXER_AUX_FILE none
 set OUTPUT_AUX_DEV /dev/pwm_output1
@@ -405,3 +405,5 @@ unset OUTPUT_CMD
 unset MIXER_AUX_FILE
 unset OUTPUT_AUX_DEV
 unset OUTPUT_DEV
+
+echo "rc.interface ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

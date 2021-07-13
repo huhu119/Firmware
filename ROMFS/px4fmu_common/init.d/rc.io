@@ -5,6 +5,7 @@
 
 # If $OUTPUT_MODE indicated Hardware-int-the-loop simulation, px4io should not publish actuator_outputs,
 # instead, pwm_out_sim will publish that uORB
+echo "rc.io /////////////////////////////////////////////////////////////////////////////////////"
 if [ $OUTPUT_MODE = hil ]
 then
     set HIL_ARG $OUTPUT_MODE
@@ -21,3 +22,5 @@ then
 		tune_control play -t 20
 	fi
 fi
+
+echo "rc.io ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

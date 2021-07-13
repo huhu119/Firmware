@@ -8,6 +8,7 @@
 #
 # Fixed wing setup.
 #
+echo "rc.vehicle_setup  /////////////////////////////////////////////////////////////////////////////////////"
 if [ $VEHICLE_TYPE = fw ]
 then
 	if [ $MIXER = none ]
@@ -201,3 +202,6 @@ then
 	echo "No autostart ID found"
 	ekf2 start
 fi
+
+echo "rc.vehicle_setup ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+

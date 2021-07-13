@@ -3,8 +3,8 @@
 # UGV default parameters.
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
-#
-
+#脚本变量在rcS脚本中声明/初始化/取消设置。
+echo "rc.boat_defaults  /////////////////////////////////////////////////////////////////////////////////////"
 set VEHICLE_TYPE rover
 
 if [ $AUTOCNF = yes ]
@@ -26,17 +26,23 @@ fi
 # Enable servo output on pins 3 and 4 (steering and thrust)
 # but also include 1+2 as they form together one output group
 # and need to be set together.
+#使伺服输出引脚3和4(转向和推力)，但也包括1+2，因为他们形成一个输出组，需要一起设置。
 #
 set PWM_OUT 1234
 
 #
 # PWM Hz - 50 Hz is the normal rate in RC cars, higher rates
 # may damage analog servos.
+#PWM Hz - 50hz是RC车的正常频率，更高的频率可能损坏模拟伺服系统。
 #
 set PWM_RATE 50
 
 #
 # This is the gimbal pass mixer.
+#这是万向节通混频器。
 #
+
 set MIXER_AUX pass
 set PWM_AUX_OUT 1234
+
+echo "rc.boat_defaults ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

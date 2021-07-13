@@ -4,7 +4,7 @@
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
-
+echo "rc.vtol_defaults  /////////////////////////////////////////////////////////////////////////////////////"
 set VEHICLE_TYPE vtol
 
 if [ $AUTOCNF = yes ]
@@ -34,3 +34,6 @@ then
 
 	param set WV_EN 1
 fi
+
+echo "rc.vtol_defaults ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+

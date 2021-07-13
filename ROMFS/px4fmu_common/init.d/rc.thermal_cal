@@ -4,7 +4,7 @@
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
-
+echo "rc.thermal_cal  /////////////////////////////////////////////////////////////////////////////////////"
 set TEMP_COMP_START ""
 
 if param compare TC_A_ENABLE 1
@@ -63,3 +63,5 @@ then
 fi
 
 unset TEMP_CALIB_ARGS
+
+echo "rc.thermal_cal ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

@@ -4,7 +4,7 @@
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
-
+echo "rc.rover_apps /////////////////////////////////////////////////////////////////////////////////////"
 #
 # Start the attitude and position estimator.
 #
@@ -23,3 +23,5 @@ rover_pos_control start
 # Start Land Detector.
 #
 land_detector start rover
+
+echo "rc.rover_apps ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

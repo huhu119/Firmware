@@ -4,7 +4,7 @@
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
-
+echo "rc.uuv_apps  /////////////////////////////////////////////////////////////////////////////////////"
 ###############################################################################
 #                       Begin Estimator Group Selection                       #
 ###############################################################################
@@ -24,3 +24,5 @@ uuv_att_control start
 # Start UUV Land Detector.
 #
 land_detector start rover
+
+echo "rc.uuv_apps ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

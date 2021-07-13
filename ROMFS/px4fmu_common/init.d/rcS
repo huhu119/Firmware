@@ -2,24 +2,27 @@
 # Un comment and use set +e to ignore and set -e to enable 'exit on error control'
 set +e
 # Un comment the line below to help debug scripts by printing a trace of the script commands
+#显示脚本运行是的冗余输出，在set命令之后执行的每一条命令以及加载命令行中的任何参数都会显示出来，每一行都会加上加号（+），提示它是跟踪输出的标识。
 #set -x
 # PX4FMU startup script.
 #
 # NOTE: environment variable references:
+#环境变量引用:
 #    If the dollar sign ('$') is followed by a left bracket ('{') then the
 #    variable name is terminated with the right bracket character ('}').
 #    Otherwise, the variable name goes to the end of the argument.
+#如果美元符号('$')后面跟着一个左括号('{')，那么变量名将以右括号字符('}')结束。否则，变量名将转到参数的末尾。
 #
 #
 # NOTE: COMMENT LINES ARE REMOVED BEFORE STORED IN ROMFS.
-#
+#注释行在存储在romfs之前被删除。
 #------------------------------------------------------------------------------
 
 #
 # Set default paramter values.
 # Do not add intra word spaces
 # it wastes flash
-#
+#设置默认参数值。不要添加单词空格它浪费flash
 set AUTOCNF no
 set AUX_MODE pwm
 set DATAMAN_OPT ""
@@ -197,6 +200,7 @@ else
 
 	#
 	# Optional board defaults: rc.board_defaults
+	#这个脚本在boards/px4/fmu-v5/init/rc.board_defaults
 	#
 	set BOARD_RC_DEFAULTS /etc/init.d/rc.board_defaults
 	if [ -f $BOARD_RC_DEFAULTS ]
@@ -208,17 +212,21 @@ else
 
 	#
 	# Waypoint storage.
+	#路标存储。
 	# REBOOTWORK this needs to start in parallel.
+	#“重启工作”需要并行启动。
 	#
 	dataman start $DATAMAN_OPT
 
 	#
 	# Start the socket communication send_event handler.
+	#启动套接字通信 send_event 处理程序。
 	#
 	send_event start
 
 	#
 	# Start the resource load monitor.
+	#启动资源负载监视器。
 	#
 	load_mon start
 
@@ -245,6 +253,7 @@ else
 
 	#
 	# Set parameters and env variables for selected AUTOSTART.
+	#为选定的AUTOSTART设置参数和env变量。
 	#
 	if ! param compare SYS_AUTOSTART 0
 	then
@@ -253,6 +262,7 @@ else
 
 	#
 	# Override parameters from user configuration file.
+	#覆盖用户配置文件中的参数。
 	#
 	if [ -f $FCONFIG ]
 	then
@@ -271,12 +281,14 @@ else
 	#
 	# Check if PX4IO present and update firmware if needed.
 	# Assumption IOFW set to firmware file and IO_PRESENT = no
+	#检查PX4IO是否存在，如果需要更新固件。假设IOFW设置为固件文件，IO_PRESENT = no
 	#
 
 	if [ -f $IOFW ]
 	then
 		# Check for the mini using build with px4io fw file
 		# but not a px4IO
+		#检查迷你使用构建与px4io fw文件，但不是一个px4io
 		if ver hwtypecmp V540 V560
 		then
 			param set SYS_USE_IO 0
@@ -328,7 +340,7 @@ else
 	then
 		set USE_IO yes
 	fi
-
+	#-a 相当于 add &&   -o 相当于 or  ||
 	if [ $USE_IO = yes -a $IO_PRESENT = no ]
 	then
 		echo "PX4IO not found" >> $LOG_FILE
@@ -338,13 +350,17 @@ else
 
 	#
 	# RC update (map raw RC input to calibrate manual control)
+	#RC更新(地图原始RC输入校准手动控制)
 	#  start before commander
 	#
 	rc_update start
 
 	#
 	# Sensors System (start before Commander so Preflight checks are properly run).
+	#传感器系统(在指挥官之前启动，以便飞行前检查正常运行)。
 	# Commander needs to be this early for in-air-restarts.
+	#指挥官需要这么早进行空中重启。
+	#SYS_HITL 参数用于判断系统是否以硬件仿真的方式启动 大于0时为仿真启动
 	#
 	if param greater SYS_HITL 0
 	then

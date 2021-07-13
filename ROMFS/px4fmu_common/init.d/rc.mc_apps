@@ -9,6 +9,7 @@
 #                       Begin Estimator Group Selection                       #
 ###############################################################################
 
+echo "rc.mc_apps /////////////////////////////////////////////////////////////////////////////////////"
 #
 # LPE
 #
@@ -68,3 +69,5 @@ mc_pos_control start
 # Start Multicopter Land Detector.
 #
 land_detector start multicopter
+
+echo "rc.mc_apps ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

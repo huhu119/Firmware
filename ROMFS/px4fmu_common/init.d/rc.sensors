@@ -4,7 +4,7 @@
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
-
+echo "rc.sensors /////////////////////////////////////////////////////////////////////////////////////"
 if ! ver hwcmp AEROFC_V1 OMNIBUS_F4SD
 then
 	if ! ver hwcmp BITCRAZE_CRAZYFLIE
@@ -139,3 +139,6 @@ fi
 ###############################################################################
 
 sensors start
+
+echo "rc.sensors ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+

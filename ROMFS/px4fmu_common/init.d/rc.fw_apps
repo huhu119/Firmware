@@ -8,6 +8,7 @@
 #
 # Start the attitude and position estimator.
 #
+echo "rc.fw_apps /////////////////////////////////////////////////////////////////////////////////////"
 ekf2 start
 
 #
@@ -20,3 +21,5 @@ airspeed_selector start
 # Start Land Detector.
 #
 land_detector start fixedwing
+
+echo "rc.fw_apps ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

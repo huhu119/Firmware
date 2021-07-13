@@ -3,10 +3,11 @@
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
-
+echo "rc.logging /////////////////////////////////////////////////////////////////////////////////////"
 if param greater -s UAVCAN_ENABLE 1
 then
 	# Reduce logger buffer to free up some RAM for UAVCAN servers.
+	#减少记录器缓冲区，为UAVCAN服务器释放一些RAM。  默认rcS 是14
 	set LOGGER_BUF 6
 fi
 
@@ -33,3 +34,5 @@ if ! param compare SDLOG_MODE -1
 then
 	logger start -b ${LOGGER_BUF} -t ${LOGGER_ARGS}
 fi
+
+echo "rc.logging ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"

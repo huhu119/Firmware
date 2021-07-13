@@ -5,6 +5,7 @@
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
 
+echo "rc.vtol_apps  /////////////////////////////////////////////////////////////////////////////////////"
 ###############################################################################
 #                       Begin Estimator group selection                       #
 ###############################################################################
@@ -31,3 +32,6 @@ fw_pos_control_l1 start vtol
 # Multicopter for now until we have something for VTOL
 #
 land_detector start vtol
+
+echo "rc.vtol_apps ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+
